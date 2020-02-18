@@ -1,0 +1,17 @@
+{
+    "directory_name": "docker_project2",
+    "pipeline_name": "docker_project2",
+    "pipeline_description": "Description for pipeline project2",
+    "trigger_from_features": "n",
+    "trigger_feature_name": "feature/*",
+    "trigger_branch_name": ["master", "release/*"],
+    "template_repository_name": "radoscis/pipelines-templates",
+    "template_repository_refs": "refs/heads/master",
+    "service_endpoint": "NewRadoscisGithubConnection",
+    "gradle_template_path": "gradle_java/gradle.yml",
+    "gradle_working_directory": "''",
+    "storeblob_template_path": "gradle_java/store_blob.yml",
+    "version_snapshot_number": "1.0.15-SNAPSHOT"
+}
+
+

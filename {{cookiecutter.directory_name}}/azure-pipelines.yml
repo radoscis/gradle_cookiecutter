@@ -1,0 +1,36 @@
+trigger: none
+  batch: true
+  branches:
+    include:
+      {%- if cookiecutter.trigger_from_features=='y' %}
+    - {{cookiecutter.trigger_feature_name}}
+      {%- endif %}
+    - {{cookiecutter.trigger_branch_name}}
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: {{cookiecutter.template_repository_name}}
+      ref: {{cookiecutter.template_repository_refs}}
+      endpoint: {{cookiecutter.service_endpoint}}
+
+pool:
+    vmImage: 'ubuntu-latest'
+variables:
+- group: GitHub
+- group: DEFAULT_PROJECT_SETTINGS
+
+stages:
+- stage: 'Build'
+  jobs:
+  - template: {{cookiecutter.gradle_template_path}}@templates
+    parameters:
+      workingDirectory: {{cookiecutter.gradle_working_directory}}
+      gitCiToken: "$(GH_TOKEN)"
+      gitCiUserMail: "$(GH_USER_MAIL)"
+      gitCiUserName: "$(GH_USER_NAME)"
+- template: {{cookiecutter.storeblob_template_path}}@templates
+  parameters:
+    azSubRmConnection: "$(AZ_RM_CONNECTION)"
+    azContainerRegistryName: "$(AZ_CONTAINER_REGISTRY_NAME)"
